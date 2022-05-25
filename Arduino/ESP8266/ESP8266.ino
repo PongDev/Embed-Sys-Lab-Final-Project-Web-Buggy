@@ -24,6 +24,10 @@ const char *Password = WIFI_PASSWORD;
 
 void setup() {
   Serial.begin(9600);
+
+  pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, LOW);
+  delay(500);
   scanWifi();
   WiFi.begin(SSID, Password);
   int status;
@@ -73,6 +77,8 @@ void scanWifi() {
 }
 
 void loop() {
-  //  Serial.printf("Connection Status: %d\n", WiFi.status());
-  //  delay(2000);
+  digitalWrite(LED_BUILTIN, LOW);
+  delay(500);
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(500);
 }
