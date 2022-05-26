@@ -13,5 +13,17 @@ body{
     font-size: 60px;
     margin: 3px;
     margin-bottom: 7px;
-
+    /*transition-duration: 0.2s;*/
 }
+
+.controlbutton:hover{
+  background-color: lightgreen;
+}
+
+.controlbutton:active{
+  background-color: darkgreen;
+}
+/*
+.controlbutton:visited{
+  background-color: greenyellow;
+}*/
