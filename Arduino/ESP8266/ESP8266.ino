@@ -16,18 +16,24 @@
 #include <WiFiServerSecure.h>
 #include <WiFiServerSecureBearSSL.h>
 #include <WiFiUdp.h>
+#include <SoftwareSerial.h>
 
 #include "config.h"
 
 const char *SSID = WIFI_SSID;
 const char *Password = WIFI_PASSWORD;
+const char *ServerHost = SERVER_HOST;
+const uint16_t ServerPort = SERVER_PORT;
+char byteData;
+SoftwareSerial UART(13, 15); //RX(D7) TX(D8)
+WiFiClient client;
+
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(BAUD_RATE);
+  UART.begin(BAUD_RATE);
 
   pinMode(LED_BUILTIN, OUTPUT);
-  digitalWrite(LED_BUILTIN, LOW);
-  delay(500);
   scanWifi();
   WiFi.begin(SSID, Password);
   int status;
@@ -60,6 +66,8 @@ WL_DISCONNECTED:
   }
   Serial.printf("Wifi Connected!\n");
   Serial.printf("IP Address: %s\n", WiFi.localIP().toString().c_str());
+  digitalWrite(LED_BUILTIN, LOW);
+  initWiFiClient();
 }
 
 void scanWifi() {
@@ -76,9 +84,24 @@ void scanWifi() {
   }
 }
 
+void initWiFiClient() {
+  while (!client.connect(ServerHost, ServerPort)) {
+    Serial.printf("Try connecting to %s\n", ServerHost);
+  }
+  Serial.printf("Success connect to %s\n", ServerHost);
+}
+
 void loop() {
-  digitalWrite(LED_BUILTIN, LOW);
-  delay(500);
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(500);
+  while (UART.available() > 0) {
+    Serial.printf("%c", UART.read());
+  }
+  if (!client.connected()) {
+    Serial.printf("Disconnected");
+    initWiFiClient();
+  }
+  while (client.available() > 0) {
+    byteData = client.read();
+    Serial.printf("%c", byteData);
+    UART.printf("%c", byteData);
+  }
 }
