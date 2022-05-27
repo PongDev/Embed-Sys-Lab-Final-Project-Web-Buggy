@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300&family=Open+Sans&display=swap');
+
 body{
-    font-family: 'Open-Sans','Roboto','Kanit','Angsana New';
+  font-family: 'Open Sans','Kanit', sans-serif;
     text-align: center;
-    background-color: lightgrey;
+    background-color: lavender;
     font-size: 24px;
   }
 
@@ -19,7 +21,7 @@ body{
 
 
 h1{
-  font-size: 60px;
+  font-size: 50px;
 }
 p{
   margin: 4px;
@@ -28,7 +30,7 @@ table,th,td{
   
   margin-inline-start: auto;
   margin-inline-end: auto;
-  border: 2px lime solid;
+  border: 4px green solid;
   border-collapse: collapse;
   padding: 7px;
 }
@@ -38,6 +40,7 @@ th{
 td{
   padding-left: 25px;
   padding-right: 25px;
+  background-color: lightcyan;
 }
 
 .near-hit{
