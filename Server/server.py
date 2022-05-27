@@ -1,5 +1,6 @@
 import socket
 import os
+import time
 import dotenv
 from flask import Flask, render_template
 from queue import Queue
@@ -9,6 +10,7 @@ dotenv.load_dotenv()
 
 httpServer = Flask(os.getenv('PROJECT_NAME'))
 dataQueue = Queue()
+lastPush = 0
 
 
 def socketServer(dataQueue: Queue):
@@ -28,9 +30,18 @@ def socketServer(dataQueue: Queue):
 
 @httpServer.route("/")
 def index():
-    global dataQueue
-    dataQueue.put(b'X')
     return render_template('index.html')
+
+
+@httpServer.route("/move/<direction>")
+def move(direction):
+    direction = str(direction)
+    global dataQueue
+    global lastPush
+    if (direction in ['w', 's', 'a', 'd'] and time.time()-lastPush > 0.01):
+        lastPush = time.time()
+        dataQueue.put(bytes(direction, 'ascii'))
+    return ""
 
 
 Thread(target=socketServer, args=(dataQueue,)).start()
