@@ -1,0 +1,29 @@
+body{
+    font-family: 'Roboto','Kanit','sans-serif','Angsana New';
+    text-align: center;
+    background-color: lightgrey;
+  }
+
+  .controlbutton {
+    background-color: greenyellow;
+    color: white;
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    font-size: 60px;
+    margin: 3px;
+    margin-bottom: 7px;
+    /*transition-duration: 0.2s;*/
+}
+
+.controlbutton:hover{
+  background-color: lightgreen;
+}
+
+.controlbutton:active{
+  background-color: darkgreen;
+}
+/*
+.controlbutton:visited{
+  background-color: greenyellow;
+}*/
