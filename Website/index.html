@@ -6,10 +6,39 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
+        
         <h1>WebBuggy Control</h1>
-        <button type="button" id = "upbutton" class="controlbutton">🢁</button><br>
+        <h2>Data from Sensors</h2>
+
+        <table>
+            <tr>
+                <th></th>
+                <td>(cm)</td>
+            </tr>
+            <tr>
+                <th>Distance from Front Obstacle</th>
+                <td id = "frontDis" class = "distance"> 52.7</td>
+            </tr>
+            <tr>
+                <th>Distance from Back Obstacle</th>
+                <td id = "backDis" class = "distance near-hit"> 45.6</td>
+            </tr>
+  
+        </table>
+
+        <h2>Control</h2>
+        <p>You can control the car with the keys WASD</p>
+        <p>W to go forward</p>
+        <p>S to go backward</p>
+        <p>A to turn left</p>
+        <p>D to turn right</p>
+        <!--button type="button" id = "upbutton" class="controlbutton">🢁</button><br>
         <button type="button" id = "leftbutton" class="controlbutton">🢀</button>
         <button type="button" id = "downbutton" class="controlbutton">🢃</button>
-        <button type="button" id = "rightbutton" class="controlbutton">🢂</button>
+        <button type="button" id = "rightbutton" class="controlbutton">🢂</button-->
+
+        <script src="app.js"></script>
+        
     </body>
+    
 </html>
