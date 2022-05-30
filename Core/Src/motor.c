@@ -7,7 +7,7 @@
 
   put these in user code 2
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_4);
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
 
@@ -17,7 +17,7 @@
 #include "main.h"
 
 #define pwnB_ccrA TIM1->CCR1
-#define pwnB_ccrB TIM1->CCR2
+#define pwnB_ccrB TIM1->CCR4
 #define pwnB_cnt TIM1->CNT
 
 #define pwnA_ccrA TIM3->CCR1
