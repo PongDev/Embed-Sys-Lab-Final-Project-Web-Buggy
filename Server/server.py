@@ -25,7 +25,7 @@ def socketServer(dataQueue: Queue):
             while True:
                 if not dataQueue.empty():
                     client.send(dataQueue.get())
-                time.sleep(0.1)
+                time.sleep(0.001)
         except:
             client.close()
             print("[Socket] Client Disconnect")
@@ -41,7 +41,7 @@ def move(direction):
     direction = str(direction)
     global dataQueue
     global lastPush
-    if (direction in ['w', 's', 'a', 'd'] and time.time()-lastPush > 0.1):
+    if (direction in ['w', 's', 'a', 'd'] and time.time()-lastPush > 0.001):
         lastPush = time.time()
         dataQueue.put(bytes(direction, 'ascii'))
     return ""
