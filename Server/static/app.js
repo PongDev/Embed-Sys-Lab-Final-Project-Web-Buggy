@@ -16,6 +16,8 @@ document.addEventListener("keydown", async (event) => {
     else if (name == 'd' || name == 'D') {
         turnRight();
     }
+
+    
     else if (name == 'e' || name == 'E'){
         setLight(0)
     }
