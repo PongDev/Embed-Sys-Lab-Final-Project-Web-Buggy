@@ -102,33 +102,14 @@ int main(void) {
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
 	char byte = 0;
-
 	/* USER CODE END 2 */
 
 	/* Infinite loop */
 	/* USER CODE BEGIN WHILE */
 	while (1) {
 		HAL_UART_Receive(&huart1, &byte, 1, 1000);
-		if (byte != 0) {
-			switch (byte) {
-			case 'w':
-				forward();
-				break;
-			case 'a':
-				left();
-				break;
-			case 's':
-				backward();
-				break;
-			case 'd':
-				right();
-				break;
-			}
-			HAL_Delay(100);
-			stop();
-		}
+		setMotor(byte);
 		byte = 0;
-
 		/* USER CODE END WHILE */
 
 		/* USER CODE BEGIN 3 */

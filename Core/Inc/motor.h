@@ -1,13 +1,7 @@
 #ifndef MOTOR_H_
 #define MOTOR_H_
 
+void setMotor(char dir);
+void motor();
 
-void motorA(char c,int speed);
-
-void motorB(char c,int speed);
-
-void forward();
-void backward();
-void left();
-void right();
 #endif
