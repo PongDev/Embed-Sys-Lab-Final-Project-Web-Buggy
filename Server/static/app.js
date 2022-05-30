@@ -44,6 +44,13 @@ document.addEventListener("keydown", async (event) => {
 
 })
 
+document.addEventListener("keyup", async (event) => {
+    var name = event.key
+    if (name == "w" || name == "W" || name == "s" || name == "S" || name == 'a' || name == 'A' || name == 'd' || name == 'D') {
+        await fetch('/move/stop');
+    }
+})
+
 let lockState = false;
 
 async function moveForward() {

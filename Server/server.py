@@ -1,7 +1,6 @@
 import socket
 import os
 import time
-from turtle import delay
 import dotenv
 from flask import Flask, render_template
 from queue import Queue
@@ -44,9 +43,12 @@ def move(direction):
     if (direction in ['w', 's', 'a', 'd'] and time.time()-lastPush > 0.001):
         lastPush = time.time()
         dataQueue.put(bytes(direction, 'ascii'))
+    elif (direction == "stop" and time.time()-lastPush > 0.001):
+        lastPush = time.time()
+        dataQueue.put(bytes('x', 'ascii'))
     return ""
 
 
 Thread(target=socketServer, args=(dataQueue,)).start()
 httpServer.run(
-    host=os.getenv('HOST'), port=int(os.getenv('HTTP_PORT')),debug=True)
+    host=os.getenv('HOST'), port=int(os.getenv('HTTP_PORT')))

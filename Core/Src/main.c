@@ -108,6 +108,8 @@ int main(void) {
 	/* USER CODE BEGIN WHILE */
 	while (1) {
 		HAL_UART_Receive(&huart1, &byte, 1, 1000);
+		if (byte != 0)
+			HAL_UART_Transmit(&huart2, &byte, 1, 1000);
 		setMotor(byte);
 		byte = 0;
 		/* USER CODE END WHILE */

@@ -93,7 +93,9 @@ void initWiFiClient() {
 
 void loop() {
   while (UART.available() > 0) {
-    Serial.printf("%c", UART.read());
+    byteData = UART.read();
+    Serial.printf("%c", byteData);
+    client.printf("%c", byteData);
   }
   if (!client.connected()) {
     Serial.printf("Disconnected");
