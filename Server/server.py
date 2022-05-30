@@ -26,6 +26,7 @@ def socketServer(dataQueue: Queue):
                     client.send(dataQueue.get())
         except:
             client.close()
+            print("[Socket] Client Disconnect")
 
 
 @httpServer.route("/")
