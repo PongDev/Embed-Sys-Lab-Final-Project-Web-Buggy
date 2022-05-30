@@ -1,5 +1,5 @@
 var front = document.getElementById("frontDis")
-var back = document.getElementById("backDis")
+var light = document.getElementById("light")
 var distances = document.getElementsByClassName('distance')
 var closeDistance = 12;
 document.addEventListener("keydown", async (event) => {
@@ -15,6 +15,17 @@ document.addEventListener("keydown", async (event) => {
     }
     else if (name == 'd' || name == 'D') {
         turnRight();
+    }
+
+    
+    else if (name == 'e' || name == 'E'){
+        setLight(0)
+    }
+    else if (name == 'r' || name == 'R'){
+        setLight(100)
+    }
+    else if (name == 't' || name == 'T'){
+        setLight(50)
     }
 
     for (let dis of distances) {
@@ -37,7 +48,7 @@ let lockState = false;
 
 async function moveForward() {
     front.innerHTML = (parseFloat(front.innerHTML) - 4).toFixed(1);
-    back.innerHTML = (parseFloat(back.innerHTML) + 4).toFixed(1);
+    //back.innerHTML = (parseFloat(back.innerHTML) + 4).toFixed(1);
     if (!lockState) {
         lockState = true;
         await fetch('/move/w');
@@ -47,7 +58,7 @@ async function moveForward() {
 
 async function moveBackward() {
     front.innerHTML = (parseFloat(front.innerHTML) + 4).toFixed(1);
-    back.innerHTML = (parseFloat(back.innerHTML) - 4).toFixed(1);
+    //back.innerHTML = (parseFloat(back.innerHTML) - 4).toFixed(1);
     if (!lockState) {
         lockState = true;
         await fetch('/move/s');
@@ -68,5 +79,20 @@ async function turnRight() {
         lockState = true;
         await fetch('/move/d');
         lockState = false;
+    }
+}
+
+async function setLight(x){
+    if(x == 0){
+        light.innerHTML = 'OFF';
+        light.className = 'redback'
+    }
+    else if(x == 100){
+        light.innerHTML = 'ON';
+        light.className = 'greenback'
+    }
+    else if (x > 0 && x < 100){
+        light.innerHTML =  'DIM('+ x + '%)'
+        light.className = 'cyanback'
     }
 }

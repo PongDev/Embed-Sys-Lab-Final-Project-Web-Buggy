@@ -41,10 +41,18 @@ td {
   padding-left: 25px;
   padding-right: 25px;
   background-color: lightcyan;
+  min-width: 120px;
 }
 
-.near-hit {
+.near-hit,.redback {
   background-color: lightcoral;
+}
+
+.greenback{
+  background-color: lightgreen;
+}
+.cyanback{
+  background-color: aqua;
 }
 .controlbutton:hover {
   background-color: lightgreen;
