@@ -49,4 +49,4 @@ def move(direction):
 
 Thread(target=socketServer, args=(dataQueue,)).start()
 httpServer.run(
-    host=os.getenv('HOST'), port=int(os.getenv('HTTP_PORT')))
+    host=os.getenv('HOST'), port=int(os.getenv('HTTP_PORT')),debug=True)
