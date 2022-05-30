@@ -1,6 +1,7 @@
 import socket
 import os
 import time
+from turtle import delay
 import dotenv
 from flask import Flask, render_template
 from queue import Queue
@@ -24,6 +25,7 @@ def socketServer(dataQueue: Queue):
             while True:
                 if not dataQueue.empty():
                     client.send(dataQueue.get())
+                time.sleep(0.001)
         except:
             client.close()
             print("[Socket] Client Disconnect")
@@ -39,7 +41,7 @@ def move(direction):
     direction = str(direction)
     global dataQueue
     global lastPush
-    if (direction in ['w', 's', 'a', 'd'] and time.time()-lastPush > 0.01):
+    if (direction in ['w', 's', 'a', 'd'] and time.time()-lastPush > 0.005):
         lastPush = time.time()
         dataQueue.put(bytes(direction, 'ascii'))
     return ""
