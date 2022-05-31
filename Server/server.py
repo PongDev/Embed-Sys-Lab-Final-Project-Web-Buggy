@@ -42,6 +42,7 @@ def socketServer(dataQueue: Queue, clientDataQueue: Queue):
             with open("ThreadLog.txt", "a") as fp:
                 fp.write("[Socket] Client Disconnect\n")
             print("[Socket] Client Disconnect")
+            clientDataQueue.put(b'd')
 
 
 @httpServer.route("/", methods=['GET'])
