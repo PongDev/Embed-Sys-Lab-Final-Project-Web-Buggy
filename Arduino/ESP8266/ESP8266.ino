@@ -89,6 +89,7 @@ void initWiFiClient() {
     Serial.printf("Try connecting to %s\n", ServerHost);
   }
   Serial.printf("Success connect to %s\n", ServerHost);
+  client.printf("c");
 }
 
 void loop() {
@@ -98,7 +99,8 @@ void loop() {
     client.printf("%c", byteData);
   }
   if (!client.connected()) {
-    Serial.printf("Disconnected");
+    Serial.printf("Disconnected\n");
+    client.printf("d");
     initWiFiClient();
   }
   while (client.available() > 0) {
