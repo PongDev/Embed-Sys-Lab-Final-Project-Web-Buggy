@@ -1,5 +1,6 @@
 /*setup
  * TIM4 channel1 input capture direct mode, prescaler = 80-1, counter period = 65535
+ * in IOC set A0 to GPIO_Output
  * in USER CODE 2, write HAL_TIM_IC_Start_IT(&htim4, TIM_CHANNEL_1);
  *
  *
@@ -18,7 +19,7 @@ uint32_t IC_Val2 = 0;
 uint32_t Difference = 0;
 uint8_t Is_First_Captured = 0;
 extern uint8_t Distance  = 0;
-int c=0;
+extern int c=0;
 
 
 void delay(uint16_t time){
@@ -61,8 +62,9 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 }
 int ReadUltrasonic ()
 {
+	c++;
 	HAL_GPIO_WritePin(TRIG_PORT, TRIG_PIN, GPIO_PIN_SET);  // pull the TRIG pin HIGH
-	delay(10 );  // wait for 10 us
+	delay(10);  // wait for 10 us
 	HAL_GPIO_WritePin(TRIG_PORT, TRIG_PIN, GPIO_PIN_RESET);  // pull the TRIG pin low
 	__HAL_TIM_ENABLE_IT(&htim4, TIM_IT_CC1);
 	return Distance;
