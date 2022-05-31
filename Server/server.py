@@ -44,8 +44,8 @@ def socketServer(dataQueue: Queue, clientDataQueue: Queue):
             client.close()
             with open("ThreadLog.txt", "a") as fp:
                 fp.write("[Socket] Client Disconnect\n")
-            print("[Socket] Client Disconnect")
             clientDataQueue.put(b'd')
+            print("[Socket] Client Disconnect")
 
 
 @httpServer.route("/", methods=['GET'])
@@ -79,12 +79,14 @@ def state():
         data = clientDataQueue.get().decode('ascii')
         with open("WebLog.txt", "a") as fp:
             fp.write(f"Receive Data From Client Data Queue: {data}\n")
+        if data == 'c':
+            clientState['isOnline'] = True
+            clientModeChange = 0
+        elif data == 'd':
+            clientState['isOnline'] = False
+            clientModeChange = 0
         if clientModeChange == 0:
-            if data == 'c':
-                clientState['isOnline'] = True
-            elif data == 'd':
-                clientState['isOnline'] = False
-            elif data == 'u':
+            if data == 'u':
                 clientMode = 'u'
                 clientModeChange = 3
                 clientState['distance'] = 0
