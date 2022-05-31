@@ -16,14 +16,14 @@ clientState = {"isOnline": False}
 
 
 def socketServer(dataQueue: Queue, clientDataQueue: Queue):
-    with open("ThreadLog.txt", "a") as fp:
+    with open("ThreadLog.txt", "w") as fp:
         fp.write("[Socket] Thread Open\n")
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.bind((os.getenv('HOST'), int(os.getenv('SOCKET_PORT'))))
     sock.listen(0)
     while True:
         client, addr = sock.accept()
-        with open("ThreadLog.txt", "a") as fp:
+        with open("ThreadLog.txt", "w") as fp:
             fp.write("[Socket] Client Connect\n")
         print("[Socket] Client Connect")
         try:
@@ -33,13 +33,13 @@ def socketServer(dataQueue: Queue, clientDataQueue: Queue):
                 time.sleep(0.001)
                 clientData = client.recv(1)
                 if clientData != None:
-                    with open("ThreadLog.txt", "a") as fp:
+                    with open("ThreadLog.txt", "w") as fp:
                         fp.write(f"{clientData}\n")
                     print(clientData)
                     clientDataQueue.put(clientData)
         except:
             client.close()
-            with open("ThreadLog.txt", "a") as fp:
+            with open("ThreadLog.txt", "w") as fp:
                 fp.write("[Socket] Client Disconnect\n")
             print("[Socket] Client Disconnect")
             clientDataQueue.put(b'd')
@@ -70,7 +70,7 @@ def state():
 
     while not clientDataQueue.empty():
         data = clientDataQueue.get().decode('ascii')
-        with open("WebLog.txt", "a") as fp:
+        with open("WebLog.txt", "w") as fp:
             fp.write(f"Receive Data From Client Data Queue: {data}\n")
         if data == 'c':
             clientState['isOnline'] = True
