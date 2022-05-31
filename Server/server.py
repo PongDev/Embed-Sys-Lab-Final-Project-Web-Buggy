@@ -23,7 +23,7 @@ def socketServer(dataQueue: Queue, clientDataQueue: Queue):
     sock.listen(0)
     while True:
         client, addr = sock.accept()
-        with open("ThreadLog.txt", "w") as fp:
+        with open("ThreadLog.txt", "a") as fp:
             fp.write("[Socket] Client Connect\n")
         print("[Socket] Client Connect")
         try:
@@ -33,13 +33,13 @@ def socketServer(dataQueue: Queue, clientDataQueue: Queue):
                 time.sleep(0.001)
                 clientData = client.recv(1)
                 if clientData != None:
-                    with open("ThreadLog.txt", "w") as fp:
+                    with open("ThreadLog.txt", "a") as fp:
                         fp.write(f"{clientData}\n")
                     print(clientData)
                     clientDataQueue.put(clientData)
         except:
             client.close()
-            with open("ThreadLog.txt", "w") as fp:
+            with open("ThreadLog.txt", "a") as fp:
                 fp.write("[Socket] Client Disconnect\n")
             print("[Socket] Client Disconnect")
             clientDataQueue.put(b'd')
@@ -70,7 +70,7 @@ def state():
 
     while not clientDataQueue.empty():
         data = clientDataQueue.get().decode('ascii')
-        with open("WebLog.txt", "w") as fp:
+        with open("WebLog.txt", "a") as fp:
             fp.write(f"Receive Data From Client Data Queue: {data}\n")
         if data == 'c':
             clientState['isOnline'] = True
@@ -79,6 +79,8 @@ def state():
     return clientState
 
 
+with open("WebLog.txt", "w") as fp:
+    fp.write(f"Start Web Log\n")
 Thread(target=socketServer, args=(dataQueue, clientDataQueue,)).start()
 httpServer.run(
     host=os.getenv('HOST'), port=int(os.getenv('HTTP_PORT')))
