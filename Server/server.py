@@ -13,7 +13,7 @@ dataQueue = Queue()
 clientDataQueue = Queue()
 lastPush = 0
 clientState = {"isOnline": False, "distance": 0}
-clientStateRem = clientState
+clientStateRem = clientState.copy()
 clientMode = None
 clientModeChange = 0
 
@@ -94,7 +94,7 @@ def state():
             clientModeChange -= 1
         if clientModeChange == 0:
             clientMode = None
-            clientStateRem = clientState
+            clientStateRem = clientState.copy()
     return clientStateRem
 
 
