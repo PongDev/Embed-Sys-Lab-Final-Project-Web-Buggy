@@ -158,11 +158,7 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	while (1) {
-		HAL_UART_Receive(&huart1, &byte, 1, 1000);
-		if (byte != 0)
-			HAL_UART_Transmit(&huart2, &byte, 1, 1000);
-		setMotor(byte);
-		byte = 0;
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -571,20 +567,20 @@ void StartDefaultTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-//	HAL_UART_Receive(&huart1, &byte, 1, 1000);
-//	HAL_UART_Transmit(&huart1, &byte, 1, 1000);
+	HAL_UART_Receive(&huart1, &byte, 1, 1000);
+	//HAL_UART_Transmit(&huart2, &byte, 1, 1000);
 	setMotor(byte);
 	byte = 0;
-	if(light<1000){
+	if(light<1500){
 		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, 1);
 	}else{
 		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, 0);
 	}
-//	if(d<15){
-//		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, 1);
-//	}else{
-//		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, 0);
-//	}
+	if(d<15){
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, 1);
+	}else{
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, 0);
+	}
   }
   /* USER CODE END 5 */
 }
@@ -608,12 +604,12 @@ void StartTask02(void const * argument)
   for(;;)
   {
 	  d = ReadUltrasonic();
-//	  s1=d%256;
-//	  s2=d/256;
+	  s1=d%256;
+	  s2=d/256;
 	  sprintf(s,"%d\r\n",d);
 	  HAL_UART_Transmit(&huart2, s, strlen(s), 1000);
-//	  HAL_UART_Transmit(&huart2, s1, 1, 1000);
-//	  HAL_UART_Transmit(&huart2, s2, 1, 1000);
+	  HAL_UART_Transmit(&huart1, s1, 1, 1000);
+	  HAL_UART_Transmit(&huart1, s2, 1, 1000);
 
 	 HAL_ADC_Start(&hadc1);
 	 	if(HAL_ADC_PollForConversion(&hadc1,1000)==HAL_OK){
