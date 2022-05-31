@@ -544,7 +544,7 @@ void StartDefaultTask(void const *argument) {
 	/* Infinite loop */
 	for (;;) {
 		HAL_UART_Receive(&huart1, &byte, 1, 1000);
-		//HAL_UART_Transmit(&huart2, &byte, 1, 1000);
+//		HAL_UART_Transmit(&huart2, &byte, 1, 1000);
 		setMotor(byte);
 		byte = 0;
 		if (light < 1500) {
@@ -572,29 +572,30 @@ void StartTask02(void const *argument) {
 	/* USER CODE BEGIN StartTask02 */
 
 	char tmp;
-	char s[10];
 	char code = 'u';
+	int dist;
 
 	/* Infinite loop */
 	for (;;) {
 		d = ReadUltrasonic() % 1000;
-//		sprintf(s, "%d\r\n", d);
-//		HAL_UART_Transmit(&huart2, s, strlen(s), 1000);
+		dist = d;
 		HAL_UART_Transmit(&huart1, &code, 1, 1000);
-		tmp = (d / 100) + '0';
-		d %= 100;
+		tmp = (dist / 100) + '0';
+		dist %= 100;
 		HAL_UART_Transmit(&huart1, &tmp, 1, 1000);
-		tmp = (d / 10) + '0';
-		d %= 10;
+		tmp = (dist / 10) + '0';
+		dist %= 10;
 		HAL_UART_Transmit(&huart1, &tmp, 1, 1000);
-		tmp = d + '0';
+		tmp = dist + '0';
 		HAL_UART_Transmit(&huart1, &tmp, 1, 1000);
 
 		HAL_ADC_Start(&hadc1);
 		if (HAL_ADC_PollForConversion(&hadc1, 1000) == HAL_OK) {
 			light = HAL_ADC_GetValue(&hadc1);
 		}
-
+//		char s[10];
+//		sprintf(s, "%d\r\n", light);
+//		HAL_UART_Transmit(&huart2, s, strlen(s), 1000);
 		osDelay(210);
 	}
 	/* USER CODE END StartTask02 */
