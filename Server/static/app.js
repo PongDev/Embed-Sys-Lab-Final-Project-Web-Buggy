@@ -49,48 +49,48 @@ document.addEventListener("keyup", async (event) => {
     }
 })
 var counter;
-upbut.onmousedown = function(){
-    counter = setInterval(function(){
+upbut.onmousedown = function () {
+    counter = setInterval(function () {
         moveForward();
         isClose();
-    },100);
+    }, 100);
 }
-upbut.onmouseup = function(){
+upbut.onmouseup = function () {
     clearInterval(counter);
 }
 
-downbut.onmousedown = function(){
-    counter = setInterval(function(){
+downbut.onmousedown = function () {
+    counter = setInterval(function () {
         moveBackward();
         isClose();
-    },100);
+    }, 100);
 }
-downbut.onmouseup = function(){
+downbut.onmouseup = function () {
     clearInterval(counter);
 }
 
-leftbut.onmousedown = function(){
-    counter = setInterval(function(){
+leftbut.onmousedown = function () {
+    counter = setInterval(function () {
         turnLeft();
         isClose();
-    },100);
+    }, 100);
 }
-leftbut.onmouseup = function(){
+leftbut.onmouseup = function () {
     clearInterval(counter);
 }
 
-rightbut.onmousedown = function(){
-    counter = setInterval(function(){
+rightbut.onmousedown = function () {
+    counter = setInterval(function () {
         turnRight();
         isClose();
-    },100);
+    }, 100);
 }
-rightbut.onmouseup = function(){
+rightbut.onmouseup = function () {
     clearInterval(counter);
 }
 let lockState = false;
 
-async function isClose(){
+async function isClose() {
     for (let dis of distances) {
         x = parseFloat(dis.innerHTML)
         if (dis.classList.contains("near-hit")) {
@@ -108,7 +108,6 @@ async function isClose(){
 
 async function moveForward() {
     console.log('moving forward')
-    front.innerHTML = (parseFloat(front.innerHTML) - 4).toFixed(1);
     //back.innerHTML = (parseFloat(back.innerHTML) + 4).toFixed(1);
     if (!lockState) {
         lockState = true;
@@ -120,7 +119,6 @@ async function moveForward() {
 }
 
 async function moveBackward() {
-    front.innerHTML = (parseFloat(front.innerHTML) + 4).toFixed(1);
     //back.innerHTML = (parseFloat(back.innerHTML) - 4).toFixed(1);
     if (!lockState) {
         lockState = true;
@@ -171,4 +169,5 @@ setInterval(async () => {
         method: 'GET'
     }).then(res => res.json());
     document.getElementById('isOnline').innerHTML = clientState.isOnline ? "Online" : "Offline"
-}, 3000)
+    front.innerHTML = clientState.distance;
+}, 1000)
