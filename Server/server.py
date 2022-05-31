@@ -12,7 +12,10 @@ httpServer = Flask(os.getenv('PROJECT_NAME'))
 dataQueue = Queue()
 clientDataQueue = Queue()
 lastPush = 0
-clientState = {"isOnline": False}
+clientState = {"isOnline": False, "distance": 0}
+clientStateRem = clientState
+clientMode = None
+clientModeChange = 0
 
 
 def socketServer(dataQueue: Queue, clientDataQueue: Queue):
@@ -67,16 +70,32 @@ def move(direction):
 @httpServer.route("/state", methods=['GET'])
 def state():
     global clientDataQueue
+    global clientMode
+    global clientModeChange
+    global clientState
+    global clientStateRem
 
     while not clientDataQueue.empty():
         data = clientDataQueue.get().decode('ascii')
         with open("WebLog.txt", "a") as fp:
             fp.write(f"Receive Data From Client Data Queue: {data}\n")
-        if data == 'c':
-            clientState['isOnline'] = True
-        elif data == 'd':
-            clientState['isOnline'] = False
-    return clientState
+        if clientModeChange == 0:
+            if data == 'c':
+                clientState['isOnline'] = True
+            elif data == 'd':
+                clientState['isOnline'] = False
+            elif data == 'u':
+                clientMode = 'u'
+                clientModeChange = 3
+                clientState['distance'] = 0
+        elif clientModeChange > 0 and clientMode == 'u':
+            clientState['distance'] *= 10
+            clientState['distance'] += int(data)
+            clientModeChange -= 1
+        if clientModeChange == 0:
+            clientMode = None
+            clientStateRem = clientState
+    return clientStateRem
 
 
 with open("WebLog.txt", "w") as fp:
