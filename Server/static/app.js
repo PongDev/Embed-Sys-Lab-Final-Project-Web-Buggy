@@ -7,7 +7,7 @@ var downbut = document.getElementById("downbutton")
 var leftbut = document.getElementById("leftbutton")
 var rightbut = document.getElementById("rightbutton")
 
-var closeDistance = 12;
+var closeDistance = 25;
 var clientState;
 
 document.addEventListener("keydown", async (event) => {
