@@ -2,6 +2,8 @@ var front = document.getElementById("frontDis")
 var light = document.getElementById("light")
 var distances = document.getElementsByClassName('distance')
 var closeDistance = 12;
+var clientState;
+
 document.addEventListener("keydown", async (event) => {
     var name = event.key
     if (name == "w" || name == "W") {
@@ -113,3 +115,10 @@ async function setLight(x) {
         light.className = 'cyanback'
     }
 }
+
+setInterval(async () => {
+    clientState = await fetch('/state', {
+        method: 'GET'
+    }).then(res => res.json());
+    document.getElementById('isOnline').innerHTML = clientState.isOnline ? "Online" : "Offline"
+}, 3000)
