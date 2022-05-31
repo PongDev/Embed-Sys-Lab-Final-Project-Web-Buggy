@@ -1,15 +1,32 @@
 version: '3'
 
 services:
-  controller-server:
-    container_name: controller-server
+  webbuggy-flask:
+    container_name: webbuggy-flask
     restart: always
-    build: .
+    build: ./Flask
     ports:
       - "${HTTP_PORT}:${HTTP_PORT}"
-      - "${SOCKET_PORT}:${SOCKET_PORT}"
     volumes:
-      - ./static:/app/static
-      - ./templates:/app/templates
-      - ./.env:/app/.env
-      - ./server.py:/app/server.py
+      - ./Flask:/app
+    environment:
+      - PROJECT_NAME=${PROJECT_NAME}
+      - HOST=${HOST}
+      - HTTP_PORT=${HTTP_PORT}
+      - SOCKET_HOST=${SOCKET_HOST}
+      - SOCKET_BROADCAST_PORT=${SOCKET_BROADCAST_PORT}
+
+  webbuggy-socket:
+    container_name: webbuggy-socket
+    restart: always
+    build: ./Socket
+    ports:
+      - "${SOCKET_PORT}:${SOCKET_PORT}"
+      - "${SOCKET_BROADCAST_PORT}:${SOCKET_BROADCAST_PORT}"
+    volumes:
+      - ./Socket:/app
+    environment:
+      - HOST=${HOST}
+      - SOCKET_PORT=${SOCKET_PORT}
+      - SOCKET_BROADCAST_PORT=${SOCKET_BROADCAST_PORT}
+      - SOCKET_CONNECTION_LIMIT=${SOCKET_CONNECTION_LIMIT}
