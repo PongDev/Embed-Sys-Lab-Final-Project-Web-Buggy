@@ -12,11 +12,14 @@ httpServer = Flask(os.getenv('PROJECT_NAME'))
 dataQueue = Queue()
 clientDataQueue = Queue()
 lastPush = 0
-clientState = {"isOnline": False}
+clientState = {"isOnline": False, "distance": 0}
+clientStateRem = clientState.copy()
+clientMode = None
+clientModeChange = 0
 
 
 def socketServer(dataQueue: Queue, clientDataQueue: Queue):
-    with open("ThreadLog.txt", "a") as fp:
+    with open("ThreadLog.txt", "w") as fp:
         fp.write("[Socket] Thread Open\n")
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.bind((os.getenv('HOST'), int(os.getenv('SOCKET_PORT'))))
@@ -41,6 +44,7 @@ def socketServer(dataQueue: Queue, clientDataQueue: Queue):
             client.close()
             with open("ThreadLog.txt", "a") as fp:
                 fp.write("[Socket] Client Disconnect\n")
+            clientDataQueue.put(b'd')
             print("[Socket] Client Disconnect")
 
 
@@ -66,6 +70,10 @@ def move(direction):
 @httpServer.route("/state", methods=['GET'])
 def state():
     global clientDataQueue
+    global clientMode
+    global clientModeChange
+    global clientState
+    global clientStateRem
 
     while not clientDataQueue.empty():
         data = clientDataQueue.get().decode('ascii')
@@ -73,11 +81,27 @@ def state():
             fp.write(f"Receive Data From Client Data Queue: {data}\n")
         if data == 'c':
             clientState['isOnline'] = True
+            clientModeChange = 0
         elif data == 'd':
             clientState['isOnline'] = False
-    return clientState
+            clientModeChange = 0
+        if clientModeChange == 0:
+            if data == 'u':
+                clientMode = 'u'
+                clientModeChange = 3
+                clientState['distance'] = 0
+        elif clientModeChange > 0 and clientMode == 'u':
+            clientState['distance'] *= 10
+            clientState['distance'] += int(data)
+            clientModeChange -= 1
+        if clientModeChange == 0:
+            clientMode = None
+            clientStateRem = clientState.copy()
+    return clientStateRem
 
 
+with open("WebLog.txt", "w") as fp:
+    fp.write(f"Start Web Log\n")
 Thread(target=socketServer, args=(dataQueue, clientDataQueue,)).start()
 httpServer.run(
     host=os.getenv('HOST'), port=int(os.getenv('HTTP_PORT')))

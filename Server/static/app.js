@@ -49,52 +49,52 @@ document.addEventListener("keyup", async (event) => {
     }
 })
 var counter;
-upbut.onmousedown = function(){
-    counter = setInterval(function(){
+upbut.onmousedown = function () {
+    counter = setInterval(function () {
         moveForward();
         isClose();
-    },100);
+    }, 100);
 }
-upbut.onmouseup = function(){
+upbut.onmouseup = function () {
     clearInterval(counter);
     await fetch('/move/stop', {
         method: 'POST'
     });
 }
 
-downbut.onmousedown = function(){
-    counter = setInterval(function(){
+downbut.onmousedown = function () {
+    counter = setInterval(function () {
         moveBackward();
         isClose();
-    },100);
+    }, 100);
 }
-downbut.onmouseup = function(){
+downbut.onmouseup = function () {
     clearInterval(counter);
     await fetch('/move/stop', {
         method: 'POST'
     });
 }
 
-leftbut.onmousedown = function(){
-    counter = setInterval(function(){
+leftbut.onmousedown = function () {
+    counter = setInterval(function () {
         turnLeft();
         isClose();
-    },100);
+    }, 100);
 }
-leftbut.onmouseup = function(){
+leftbut.onmouseup = function () {
     clearInterval(counter);
     await fetch('/move/stop', {
         method: 'POST'
     });
 }
 
-rightbut.onmousedown = function(){
-    counter = setInterval(function(){
+rightbut.onmousedown = function () {
+    counter = setInterval(function () {
         turnRight();
         isClose();
-    },100);
+    }, 100);
 }
-rightbut.onmouseup = function(){
+rightbut.onmouseup = function () {
     clearInterval(counter);
     await fetch('/move/stop', {
         method: 'POST'
@@ -102,7 +102,7 @@ rightbut.onmouseup = function(){
 }
 let lockState = false;
 
-async function isClose(){
+async function isClose() {
     for (let dis of distances) {
         x = parseFloat(dis.innerHTML)
         if (dis.classList.contains("near-hit")) {
@@ -119,6 +119,7 @@ async function isClose(){
 }
 
 async function moveForward() {
+
     if (!lockState) {
         lockState = true;
         await fetch('/move/w', {
@@ -129,7 +130,6 @@ async function moveForward() {
 }
 
 async function moveBackward() {
-   
     if (!lockState) {
         lockState = true;
         await fetch('/move/s', {
@@ -179,4 +179,5 @@ setInterval(async () => {
         method: 'GET'
     }).then(res => res.json());
     document.getElementById('isOnline').innerHTML = clientState.isOnline ? "Online" : "Offline"
-}, 3000)
+    front.innerHTML = clientState.distance;
+}, 1000)
