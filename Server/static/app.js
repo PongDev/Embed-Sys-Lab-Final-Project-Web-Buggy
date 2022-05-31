@@ -1,6 +1,12 @@
 var front = document.getElementById("frontDis")
 var light = document.getElementById("light")
 var distances = document.getElementsByClassName('distance')
+
+var upbut = document.getElementById("upbutton")
+var downbut = document.getElementById("downbutton")
+var leftbut = document.getElementById("leftbutton")
+var rightbut = document.getElementById("rightbutton")
+
 var closeDistance = 12;
 var clientState;
 
@@ -30,6 +36,61 @@ document.addEventListener("keydown", async (event) => {
         setLight(50)
     }
 
+    isClose()
+
+})
+
+document.addEventListener("keyup", async (event) => {
+    var name = event.key
+    if (name == "w" || name == "W" || name == "s" || name == "S" || name == 'a' || name == 'A' || name == 'd' || name == 'D') {
+        await fetch('/move/stop', {
+            method: 'POST'
+        });
+    }
+})
+var counter;
+upbut.onmousedown = function(){
+    counter = setInterval(function(){
+        moveForward();
+        isClose();
+    },100);
+}
+upbut.onmouseup = function(){
+    clearInterval(counter);
+}
+
+downbut.onmousedown = function(){
+    counter = setInterval(function(){
+        moveBackward();
+        isClose();
+    },100);
+}
+downbut.onmouseup = function(){
+    clearInterval(counter);
+}
+
+leftbut.onmousedown = function(){
+    counter = setInterval(function(){
+        turnLeft();
+        isClose();
+    },100);
+}
+leftbut.onmouseup = function(){
+    clearInterval(counter);
+}
+
+rightbut.onmousedown = function(){
+    counter = setInterval(function(){
+        turnRight();
+        isClose();
+    },100);
+}
+rightbut.onmouseup = function(){
+    clearInterval(counter);
+}
+let lockState = false;
+
+async function isClose(){
     for (let dis of distances) {
         x = parseFloat(dis.innerHTML)
         if (dis.classList.contains("near-hit")) {
@@ -43,21 +104,10 @@ document.addEventListener("keydown", async (event) => {
             }
         }
     }
-
-})
-
-document.addEventListener("keyup", async (event) => {
-    var name = event.key
-    if (name == "w" || name == "W" || name == "s" || name == "S" || name == 'a' || name == 'A' || name == 'd' || name == 'D') {
-        await fetch('/move/stop', {
-            method: 'POST'
-        });
-    }
-})
-
-let lockState = false;
+}
 
 async function moveForward() {
+    console.log('moving forward')
     front.innerHTML = (parseFloat(front.innerHTML) - 4).toFixed(1);
     //back.innerHTML = (parseFloat(back.innerHTML) + 4).toFixed(1);
     if (!lockState) {
