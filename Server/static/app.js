@@ -17,14 +17,14 @@ document.addEventListener("keydown", async (event) => {
         turnRight();
     }
 
-    
-    else if (name == 'e' || name == 'E'){
+
+    else if (name == 'e' || name == 'E') {
         setLight(0)
     }
-    else if (name == 'r' || name == 'R'){
+    else if (name == 'r' || name == 'R') {
         setLight(100)
     }
-    else if (name == 't' || name == 'T'){
+    else if (name == 't' || name == 'T') {
         setLight(50)
     }
 
@@ -47,7 +47,9 @@ document.addEventListener("keydown", async (event) => {
 document.addEventListener("keyup", async (event) => {
     var name = event.key
     if (name == "w" || name == "W" || name == "s" || name == "S" || name == 'a' || name == 'A' || name == 'd' || name == 'D') {
-        await fetch('/move/stop');
+        await fetch('/move/stop', {
+            method: 'POST'
+        });
     }
 })
 
@@ -58,7 +60,9 @@ async function moveForward() {
     //back.innerHTML = (parseFloat(back.innerHTML) + 4).toFixed(1);
     if (!lockState) {
         lockState = true;
-        await fetch('/move/w');
+        await fetch('/move/w', {
+            method: 'POST'
+        });
         lockState = false;
     }
 }
@@ -68,7 +72,9 @@ async function moveBackward() {
     //back.innerHTML = (parseFloat(back.innerHTML) - 4).toFixed(1);
     if (!lockState) {
         lockState = true;
-        await fetch('/move/s');
+        await fetch('/move/s', {
+            method: 'POST'
+        });
         lockState = false;
     }
 }
@@ -76,7 +82,9 @@ async function moveBackward() {
 async function turnLeft() {
     if (!lockState) {
         lockState = true;
-        await fetch('/move/a');
+        await fetch('/move/a', {
+            method: 'POST'
+        });
         lockState = false;
     }
 }
@@ -84,22 +92,24 @@ async function turnLeft() {
 async function turnRight() {
     if (!lockState) {
         lockState = true;
-        await fetch('/move/d');
+        await fetch('/move/d', {
+            method: 'POST'
+        });
         lockState = false;
     }
 }
 
-async function setLight(x){
-    if(x == 0){
+async function setLight(x) {
+    if (x == 0) {
         light.innerHTML = 'OFF';
         light.className = 'redback'
     }
-    else if(x == 100){
+    else if (x == 100) {
         light.innerHTML = 'ON';
         light.className = 'greenback'
     }
-    else if (x > 0 && x < 100){
-        light.innerHTML =  'DIM('+ x + '%)'
+    else if (x > 0 && x < 100) {
+        light.innerHTML = 'DIM(' + x + '%)'
         light.className = 'cyanback'
     }
 }

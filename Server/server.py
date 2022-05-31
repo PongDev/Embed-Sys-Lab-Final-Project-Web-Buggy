@@ -1,3 +1,4 @@
+from crypt import methods
 import socket
 import os
 import time
@@ -30,12 +31,12 @@ def socketServer(dataQueue: Queue):
             print("[Socket] Client Disconnect")
 
 
-@httpServer.route("/")
+@httpServer.route("/", methods=['GET'])
 def index():
     return render_template('index.html')
 
 
-@httpServer.route("/move/<direction>")
+@httpServer.route("/move/<direction>", methods=['POST'])
 def move(direction):
     direction = str(direction)
     global dataQueue
