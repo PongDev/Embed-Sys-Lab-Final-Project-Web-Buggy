@@ -57,9 +57,7 @@ upbut.onmousedown = function () {
 }
 upbut.onmouseup = function () {
     clearInterval(counter);
-    await fetch('/move/stop', {
-        method: 'POST'
-    });
+
 }
 
 downbut.onmousedown = function () {
@@ -70,9 +68,7 @@ downbut.onmousedown = function () {
 }
 downbut.onmouseup = function () {
     clearInterval(counter);
-    await fetch('/move/stop', {
-        method: 'POST'
-    });
+
 }
 
 leftbut.onmousedown = function () {
@@ -83,9 +79,7 @@ leftbut.onmousedown = function () {
 }
 leftbut.onmouseup = function () {
     clearInterval(counter);
-    await fetch('/move/stop', {
-        method: 'POST'
-    });
+
 }
 
 rightbut.onmousedown = function () {
@@ -96,9 +90,7 @@ rightbut.onmousedown = function () {
 }
 rightbut.onmouseup = function () {
     clearInterval(counter);
-    await fetch('/move/stop', {
-        method: 'POST'
-    });
+
 }
 let lockState = false;
 
@@ -119,7 +111,7 @@ async function isClose() {
 }
 
 async function moveForward() {
-
+    console.log("moving")
     if (!lockState) {
         lockState = true;
         await fetch('/move/w', {
