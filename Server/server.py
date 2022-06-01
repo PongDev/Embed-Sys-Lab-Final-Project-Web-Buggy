@@ -104,4 +104,4 @@ with open("WebLog.txt", "w") as fp:
     fp.write(f"Start Web Log\n")
 Thread(target=socketServer, args=(dataQueue, clientDataQueue,)).start()
 httpServer.run(
-    host=os.getenv('HOST'), port=int(os.getenv('HTTP_PORT')))
+    host=os.getenv('HOST'), port=int(os.getenv('HTTP_PORT')),debug=True)

@@ -1,4 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Kanit:wght@300&family=Open+Sans&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300&family=Open+Sans&display=swap');
+
 
 body {
   font-family: "Open Sans", "Kanit", sans-serif;
@@ -74,6 +75,35 @@ td {
   width: 70px;
   height: 70px;
 }
+
+.langbuttonon{
+  font-family: "Open Sans", "Kanit", sans-serif;
+  background-color: cyan;
+  color: grey;
+  width: 200px;
+  height: 60px;
+  border-radius: 10px;
+  font-size: 40px;
+  margin: 3px;
+  margin-bottom: 7px;
+}
+
+.langbuttonoff{
+  font-family: "Open Sans", "Kanit", sans-serif;
+  background-color: white;
+  color: black;
+  width: 200px;
+  height: 60px;
+  border-radius: 10px;
+  font-size: 40px;
+  margin: 3px;
+  margin-bottom: 7px;
+}
+.langbuttonoff:hover{
+  background-color: lightgray;
+}
+
+
 /*
 .controlbutton:visited{
   background-color: greenyellow;
