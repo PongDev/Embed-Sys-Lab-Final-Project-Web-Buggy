@@ -43,6 +43,8 @@ td {
 }
 th {
   background-color: aquamarine;
+  min-width: 400px;
+
 }
 td {
   padding-left: 25px;
