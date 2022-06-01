@@ -92,6 +92,8 @@ socketBroadCastServerThread = Thread(target=socketBroadCastServer, args=(
     printQueue, returnDataQueue, broadcastQueue,))
 socketBroadCastServerThread.start()
 
+with open("SocketLog.txt", "w") as fp:
+    fp.write("Start Socket Log\n")
 while socketServerThread.is_alive() or socketBroadCastServerThread.is_alive():
     while not printQueue.empty():
         with open("SocketLog.txt", "a") as fp:
