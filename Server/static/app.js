@@ -179,5 +179,6 @@ setInterval(async () => {
         method: 'GET'
     }).then(res => res.json());
     document.getElementById('isOnline').innerHTML = clientState.isOnline ? "Online" : "Offline"
+    light.innerHTML = setLight(clientState.headLight ? 100 : 0)
     front.innerHTML = clientState.distance;
 }, 1000)
