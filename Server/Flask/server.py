@@ -10,7 +10,8 @@ clientStateRem = clientState.copy()
 clientMode = None
 clientModeChange = 0
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.connect((os.getenv('SOCKET_HOST'), int(os.getenv('SOCKET_BROADCAST_PORT'))))
+sock.connect((os.getenv('SOCKET_HOST'), int(
+    os.getenv('SOCKET_BROADCAST_PORT'))))
 
 
 @httpServer.route("/", methods=['GET'])
@@ -65,6 +66,7 @@ def state():
         if clientModeChange == 0:
             clientMode = None
             clientStateRem = clientState.copy()
+            break
     return clientStateRem
 
 
