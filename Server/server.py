@@ -12,7 +12,7 @@ httpServer = Flask(os.getenv('PROJECT_NAME'))
 dataQueue = Queue()
 clientDataQueue = Queue()
 lastPush = 0
-clientState = {"isOnline": False, "distance": 0}
+clientState = {"isOnline": False, "headLight": False, "distance": 0}
 clientStateRem = clientState.copy()
 clientMode = None
 clientModeChange = 0
@@ -79,7 +79,13 @@ def state():
         data = clientDataQueue.get().decode('ascii')
         with open("WebLog.txt", "a") as fp:
             fp.write(f"Receive Data From Client Data Queue: {data}\n")
-        if data == 'c':
+        if data == 'i':
+            clientState['headLight'] = True
+            clientModeChange = 0
+        elif data == 'o':
+            clientState['headLight'] = False
+            clientModeChange = 0
+        elif data == 'c':
             clientState['isOnline'] = True
             clientModeChange = 0
         elif data == 'd':

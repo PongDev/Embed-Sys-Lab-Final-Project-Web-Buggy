@@ -67,6 +67,13 @@ td {
 .controlbutton:active {
   background-color: darkgreen;
 }
+
+.controlbutton::before {
+  content: '';
+  position: absolute;
+  width: 70px;
+  height: 70px;
+}
 /*
 .controlbutton:visited{
   background-color: greenyellow;

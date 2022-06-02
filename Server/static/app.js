@@ -7,7 +7,7 @@ var downbut = document.getElementById("downbutton")
 var leftbut = document.getElementById("leftbutton")
 var rightbut = document.getElementById("rightbutton")
 
-var closeDistance = 12;
+var closeDistance = 25;
 var clientState;
 
 document.addEventListener("keydown", async (event) => {
@@ -26,7 +26,7 @@ document.addEventListener("keydown", async (event) => {
     }
 
 
-    else if (name == 'e' || name == 'E') {
+    /*else if (name == 'e' || name == 'E') {
         setLight(0)
     }
     else if (name == 'r' || name == 'R') {
@@ -34,7 +34,7 @@ document.addEventListener("keydown", async (event) => {
     }
     else if (name == 't' || name == 'T') {
         setLight(50)
-    }
+    }*/
 
     isClose()
 
@@ -57,6 +57,9 @@ upbut.onmousedown = function () {
 }
 upbut.onmouseup = function () {
     clearInterval(counter);
+    await fetch('/move/stop', {
+        method: 'POST'
+    });
 }
 
 downbut.onmousedown = function () {
@@ -67,6 +70,9 @@ downbut.onmousedown = function () {
 }
 downbut.onmouseup = function () {
     clearInterval(counter);
+    await fetch('/move/stop', {
+        method: 'POST'
+    });
 }
 
 leftbut.onmousedown = function () {
@@ -77,6 +83,9 @@ leftbut.onmousedown = function () {
 }
 leftbut.onmouseup = function () {
     clearInterval(counter);
+    await fetch('/move/stop', {
+        method: 'POST'
+    });
 }
 
 rightbut.onmousedown = function () {
@@ -87,6 +96,9 @@ rightbut.onmousedown = function () {
 }
 rightbut.onmouseup = function () {
     clearInterval(counter);
+    await fetch('/move/stop', {
+        method: 'POST'
+    });
 }
 let lockState = false;
 
@@ -107,8 +119,7 @@ async function isClose() {
 }
 
 async function moveForward() {
-    console.log('moving forward')
-    //back.innerHTML = (parseFloat(back.innerHTML) + 4).toFixed(1);
+
     if (!lockState) {
         lockState = true;
         await fetch('/move/w', {
@@ -119,7 +130,6 @@ async function moveForward() {
 }
 
 async function moveBackward() {
-    //back.innerHTML = (parseFloat(back.innerHTML) - 4).toFixed(1);
     if (!lockState) {
         lockState = true;
         await fetch('/move/s', {
@@ -169,5 +179,6 @@ setInterval(async () => {
         method: 'GET'
     }).then(res => res.json());
     document.getElementById('isOnline').innerHTML = clientState.isOnline ? "Online" : "Offline"
+    light.innerHTML = setLight(clientState.headLight ? 100 : 0)
     front.innerHTML = clientState.distance;
 }, 1000)
