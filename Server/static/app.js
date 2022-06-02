@@ -1,6 +1,7 @@
 var front = document.getElementById("frontDis")
 var light = document.getElementById("light")
 var distances = document.getElementsByClassName('distance')
+var touchKey = null
 
 var upbut = document.getElementById("upbutton")
 var downbut = document.getElementById("downbutton")
@@ -61,6 +62,28 @@ upbut.onmouseup = async () => {
         method: 'POST'
     });
 }
+
+setTouch = (key) => {
+    touchKey = key
+}
+
+stop = async () => {
+    setTouch(null)
+    await fetch('/move/stop', {
+        method: 'POST'
+    });
+}
+
+upbut.addEventListener("touchstart", () => setTouch('w'))
+leftbut.addEventListener("touchstart", () => setTouch('a'))
+downbut.addEventListener("touchstart", () => setTouch('s'))
+rightbut.addEventListener("touchstart", () => setTouch('d'))
+
+upbut.addEventListener("touchend", stop)
+leftbut.addEventListener("touchend", stop)
+downbut.addEventListener("touchend", stop)
+rightbut.addEventListener("touchend", stop)
+
 
 downbut.onmousedown = function () {
     counter = setInterval(function () {
@@ -177,3 +200,13 @@ setInterval(async () => {
     await setLight(clientState.headLight)
     front.innerHTML = clientState.distance;
 }, 1000)
+
+setInterval(async () => {
+    if (touchKey !== null) {
+        lockState = true;
+        await fetch(`/move/${touchKey}`, {
+            method: 'POST'
+        });
+        lockState = false;
+    }
+}, 100)
