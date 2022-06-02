@@ -29,7 +29,7 @@ static int speed = 0;
 void motor() {
 	switch (motorDirection) {
 	case 'w':
-		pwnA_ccrA = speed;
+		pwnA_ccrA = speed*95/100; //because actual motor speed isn't standardized so there's some difference in motor speed
 		pwnA_ccrB = 0;
 		pwnA_cnt = 0;
 		pwnB_ccrA = speed;
@@ -37,7 +37,7 @@ void motor() {
 		pwnB_cnt = 0;
 		break;
 	case 'a':
-		pwnA_ccrA = speed;
+		pwnA_ccrA = speed*95/100;
 		pwnA_ccrB = 0;
 		pwnA_cnt = 0;
 		pwnB_ccrA = 0;
@@ -46,7 +46,7 @@ void motor() {
 		break;
 	case 's':
 		pwnA_ccrA = 0;
-		pwnA_ccrB = speed;
+		pwnA_ccrB = speed*95/100;
 		pwnA_cnt = 0;
 		pwnB_ccrA = 0;
 		pwnB_ccrB = speed;
@@ -54,7 +54,7 @@ void motor() {
 		break;
 	case 'd':
 		pwnA_ccrA = 0;
-		pwnA_ccrB = speed;
+		pwnA_ccrB = speed*95/100;
 		pwnA_cnt = 0;
 		pwnB_ccrA = speed;
 		pwnB_ccrB = 0;
@@ -73,11 +73,11 @@ void motor() {
 
 void setMotor(char dir) {
 	if (dir == motorDirection) {
-		speed += 10;
+		speed += 20;
 		if ((motorDirection == 'w' || motorDirection == 's') && (speed > 100))
 			speed = 100;
 		else if (motorDirection == 'a' || motorDirection == 'd')
-			speed = 30;
+			speed = 60;
 	} else {
 		speed = 0;
 	}
