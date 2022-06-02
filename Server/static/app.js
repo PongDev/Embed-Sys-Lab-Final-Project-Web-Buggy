@@ -55,7 +55,7 @@ upbut.onmousedown = function () {
         isClose();
     }, 100);
 }
-upbut.onmouseup = function () {
+upbut.onmouseup = async () => {
     clearInterval(counter);
     await fetch('/move/stop', {
         method: 'POST'
@@ -68,7 +68,7 @@ downbut.onmousedown = function () {
         isClose();
     }, 100);
 }
-downbut.onmouseup = function () {
+downbut.onmouseup = async () => {
     clearInterval(counter);
     await fetch('/move/stop', {
         method: 'POST'
@@ -81,7 +81,7 @@ leftbut.onmousedown = function () {
         isClose();
     }, 100);
 }
-leftbut.onmouseup = function () {
+leftbut.onmouseup = async () => {
     clearInterval(counter);
     await fetch('/move/stop', {
         method: 'POST'
@@ -94,7 +94,7 @@ rightbut.onmousedown = function () {
         isClose();
     }, 100);
 }
-rightbut.onmouseup = function () {
+rightbut.onmouseup = async () => {
     clearInterval(counter);
     await fetch('/move/stop', {
         method: 'POST'
@@ -159,18 +159,13 @@ async function turnRight() {
     }
 }
 
-async function setLight(x) {
-    if (x == 0) {
-        light.innerHTML = 'OFF';
-        light.className = 'redback'
-    }
-    else if (x == 100) {
+async function setLight(lightState) {
+    if (lightState) {
         light.innerHTML = 'ON';
         light.className = 'greenback'
-    }
-    else if (x > 0 && x < 100) {
-        light.innerHTML = 'DIM(' + x + '%)'
-        light.className = 'cyanback'
+    } else {
+        light.innerHTML = 'OFF';
+        light.className = 'redback'
     }
 }
 
@@ -179,6 +174,6 @@ setInterval(async () => {
         method: 'GET'
     }).then(res => res.json());
     document.getElementById('isOnline').innerHTML = clientState.isOnline ? "Online" : "Offline"
-    light.innerHTML = setLight(clientState.headLight ? 100 : 0)
+    await setLight(clientState.headLight)
     front.innerHTML = clientState.distance;
 }, 1000)
