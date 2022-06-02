@@ -77,7 +77,7 @@ void setMotor(char dir) {
 		if ((motorDirection == 'w' || motorDirection == 's') && (speed > 100))
 			speed = 100;
 		else if (motorDirection == 'a' || motorDirection == 'd')
-			speed = 60;
+			speed = 45;
 	} else {
 		speed = 0;
 	}
